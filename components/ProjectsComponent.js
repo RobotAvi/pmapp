@@ -145,20 +145,36 @@ const deleteProject = async (id) => {
         <button type="submit">{editingId ? 'Update' : 'Create'} Project</button>
         {editingId && <button type="button" onClick={resetForm}>Cancel</button>}
       </form>
-      <ul>
+      <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Start Date</th>
+          <th>Planned End Date</th>
+          <th>Status</th>
+          <th>Account</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      
+      <tbody>
         {projects.map((project) => (
-          <li key={project.id}>
-            <h3>{project.name}</h3>
-            <p>{project.description}</p>
-            <p>Start Date: {new Date(project.startDate).toLocaleDateString()}</p>
-            <p>Planned End Date: {new Date(project.plannedEndDate).toLocaleDateString()}</p>
-            <p>Status: {project.status.status}</p>
-            <p>Account: {project.account.name}</p>
-            <button onClick={() => editProject(project)}>Edit</button>
-            <button onClick={() => deleteProject(project.id)}>Delete</button>
-          </li>
+          <tr key={project.id}>
+            <td>{project.name}</td>
+            <td>{project.description}</td>
+            <td>{project.startDate.split('T')[0]}</td>
+            <td>{project.plannedEndDate.split('T')[0]}</td>
+            <td>{project.status.status}</td> {/* Изменено здесь */}
+            <td>{project.account.name}</td>
+            <td>
+              <button onClick={() => editProject(project)}>Edit</button>
+              <button onClick={() => deleteProject(project.id)}>Delete</button>
+            </td>
+          </tr>
         ))}
-      </ul>
-    </div>
+      </tbody>
+    </table>
+  </div>
   )
 }
