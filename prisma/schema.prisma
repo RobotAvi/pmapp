@@ -1,0 +1,195 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Employee {
+  id               Int                 @id @default(autoincrement()) @map("employeeid")
+  firstName        String              @map("firstname")
+  lastName         String              @map("lastname")
+  position         String
+  employmentType   String              @map("employmenttype")
+  hireDate         DateTime            @map("hiredate")
+  contactInfo      String              @map("contactinfo")
+  absences         Absence[]
+  employeeSkills   EmployeeSkill[]
+  employeeLevels   EmployeeLevel[]
+  employeeMotivators EmployeeMotivator[]
+  performanceReviews PerformanceReview[]
+  projectAssignments ProjectAssignment[]
+  salaries         Salary[]
+
+  @@map("employees")
+}
+
+model Absence {
+  id          Int      @id @default(autoincrement()) @map("absenceid")
+  employeeId  Int      @map("employeeid")
+  startDate   DateTime @map("startdate")
+  endDate     DateTime @map("enddate")
+  absenceType String   @map("absencetype")
+  status      String
+  employee    Employee @relation(fields: [employeeId], references: [id])
+
+  @@map("absences")
+}
+
+model Skill {
+  id          Int            @id @default(autoincrement()) @map("skillid")
+  skillName   String         @map("skillname")
+  description String
+  employeeSkills EmployeeSkill[]
+
+  @@map("skills")
+}
+
+model EmployeeSkill {
+  id               Int      @id @default(autoincrement())
+  employeeId       Int      @map("employeeid")
+  skillId          Int      @map("skillid")
+  proficiencyLevel Int      @map("proficiencylevel")
+  employee         Employee @relation(fields: [employeeId], references: [id])
+  skill            Skill    @relation(fields: [skillId], references: [id])
+
+  @@map("employeeskills")
+}
+
+model EmployeeLevel {
+  id             Int      @id @default(autoincrement()) @map("levelid")
+  employeeId     Int      @map("employeeid")
+  level          String
+  assignmentDate DateTime @map("assignmentdate")
+  employee       Employee @relation(fields: [employeeId], references: [id])
+
+  @@map("employeelevels")
+}
+
+model Motivator {
+  id              Int                @id @default(autoincrement()) @map("motivatorid")
+  motivatorName   String             @map("motivatorname")
+  description     String
+  employeeMotivators EmployeeMotivator[]
+
+  @@map("motivators")
+}
+
+model EmployeeMotivator {
+  id          Int       @id @default(autoincrement())
+  employeeId  Int       @map("employeeid")
+  motivatorId Int       @map("motivatorid")
+  priority    Int
+  employee    Employee  @relation(fields: [employeeId], references: [id])
+  motivator   Motivator @relation(fields: [motivatorId], references: [id])
+
+  @@map("employeemotivators")
+}
+
+model PerformanceReview {
+  id         Int      @id @default(autoincrement()) @map("reviewid")
+  employeeId Int      @map("employeeid")
+  reviewDate DateTime @map("reviewdate")
+  rating     Float
+  comments   String
+  employee   Employee @relation(fields: [employeeId], references: [id])
+
+  @@map("performancereviews")
+}
+
+model Salary {
+  id         Int      @id @default(autoincrement()) @map("salaryid")
+  employeeId Int      @map("employeeid")
+  startDate  DateTime @map("startdate")
+  endDate    DateTime @map("enddate")
+  amount     Float
+  employee   Employee @relation(fields: [employeeId], references: [id])
+
+  @@map("salaries")
+}
+
+model Project {
+  id              Int       @id @default(autoincrement()) @map("projectid")
+  name     String    @map("projectname")
+  description     String
+  startDate       DateTime  @map("startdate")
+  plannedEndDate  DateTime  @map("plannedenddate")
+  statusId        Int       @map("status_id")
+  accountId       Int       @map("accountid")
+  status          ProjectStatus @relation(fields: [statusId], references: [id])
+  account         Account   @relation(fields: [accountId], references: [id])
+  projectAssignments ProjectAssignment[]
+  resourcePlannings ResourcePlanning[]
+  stakeholders    Stakeholder[]
+
+  @@map("projects")
+}
+
+model ProjectStatus {
+  id          Int       @id @default(autoincrement())
+  status      String
+  description String
+  isActive    Boolean   @map("is_active")
+  createdAt   DateTime  @map("created_at")
+  updatedAt   DateTime  @map("updated_at")
+  projects    Project[]
+
+  @@map("projectstatuses")
+}
+
+model Account {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @map("created_at")
+  projects  Project[]
+
+  @@map("accounts")
+}
+
+model ProjectAssignment {
+  id                   Int      @id @default(autoincrement()) @map("assignmentid")
+  projectId            Int      @map("projectid")
+  employeeId           Int      @map("employeeid")
+  startDate            DateTime @map("startdate")
+  endDate              DateTime @map("enddate")
+  role                 String
+  allocationPercentage Float    @map("allocationpercentage")
+  project              Project  @relation(fields: [projectId], references: [id])
+  employee             Employee @relation(fields: [employeeId], references: [id])
+
+  @@map("projectassignments")
+}
+
+model ResourcePlanning {
+  id                     Int      @id @default(autoincrement()) @map("planningid")
+  projectId              Int      @map("projectid")
+  plannedStartDate       DateTime @map("plannedstartdate")
+  plannedEndDate         DateTime @map("plannedenddate")
+  requiredRole           String   @map("requiredrole")
+  requiredSkills         String   @map("requiredskills")
+  requiredEmployeeCount  Int      @map("requiredemployeecount")
+  project                Project  @relation(fields: [projectId], references: [id])
+
+  @@map("resourceplanning")
+}
+
+model Stakeholder {
+  id          Int      @id @default(autoincrement())
+  projectId   Int      @map("project_id")
+  name        String
+  role        String
+  contactInfo String   @map("contact_info")
+  createdAt   DateTime @map("created_at")
+  updatedAt   DateTime @map("updated_at")
+  project     Project  @relation(fields: [projectId], references: [id])
+
+  @@map("stakeholders")
+}
