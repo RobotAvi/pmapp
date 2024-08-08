@@ -100,81 +100,122 @@ const deleteProject = async (id) => {
   }
 
   return (
-    <div>
-      <h1>Project Management</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Project Name"
-          required
-        />
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Description"
-          required
-        />
-        <input
-          type="date"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          required
-        />
-        <input
-          type="date"
-          value={plannedEndDate}
-          onChange={(e) => setPlannedEndDate(e.target.value)}
-          required
-        />
-        <input
-          type="number"
-          value={statusId}
-          onChange={(e) => setStatusId(e.target.value)}
-          placeholder="Status ID"
-          required
-        />
-        <input
-          type="number"
-          value={accountId}
-          onChange={(e) => setAccountId(e.target.value)}
-          placeholder="Account ID"
-          required
-        />
-        <button type="submit">{editingId ? 'Update' : 'Create'} Project</button>
-        {editingId && <button type="button" onClick={resetForm}>Cancel</button>}
+    <div className="container">
+      <h1 className="my-4">Project Management</h1>
+      <form onSubmit={handleSubmit} className="mb-4">
+        <div className="row g-3">
+          <div className="col-md-6">
+            <input
+              type="text"
+              className="form-control"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Project Name"
+              required
+            />
+          </div>
+          <div className="col-md-6">
+            <textarea
+              className="form-control"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Description"
+              required
+            />
+          </div>
+          <div className="col-md-3">
+            <input
+              type="date"
+              className="form-control"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              required
+            />
+          </div>
+          <div className="col-md-3">
+            <input
+              type="date"
+              className="form-control"
+              value={plannedEndDate}
+              onChange={(e) => setPlannedEndDate(e.target.value)}
+              required
+            />
+          </div>
+          <div className="col-md-3">
+            <input
+              type="number"
+              className="form-control"
+              value={statusId}
+              onChange={(e) => setStatusId(e.target.value)}
+              placeholder="Status ID"
+              required
+            />
+          </div>
+          <div className="col-md-3">
+            <input
+              type="number"
+              className="form-control"
+              value={accountId}
+              onChange={(e) => setAccountId(e.target.value)}
+              placeholder="Account ID"
+              required
+            />
+          </div>
+          <div className="col-12">
+            <button type="submit" className="btn btn-primary me-2">
+              {editingId ? 'Update' : 'Create'} Project
+            </button>
+            {editingId && (
+              <button type="button" className="btn btn-secondary" onClick={resetForm}>
+                Cancel
+              </button>
+            )}
+          </div>
+        </div>
       </form>
-      <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Start Date</th>
-          <th>Planned End Date</th>
-          <th>Status</th>
-          <th>Account</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      
-      <tbody>
-        {projects.map((project) => (
-          <tr key={project.id}>
-            <td>{project.name}</td>
-            <td>{project.description}</td>
-            <td>{project.startDate.split('T')[0]}</td>
-            <td>{project.plannedEndDate.split('T')[0]}</td>
-            <td>{project.status.status}</td> {/* Изменено здесь */}
-            <td>{project.account.name}</td>
-            <td>
-              <button onClick={() => editProject(project)}>Edit</button>
-              <button onClick={() => deleteProject(project.id)}>Delete</button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
+      <div className="table-responsive">
+        <table className="table table-striped table-hover">
+          <thead className="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Start Date</th>
+              <th>Planned End Date</th>
+              <th>Status ID</th>
+              <th>Account ID</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {projects.map((project) => (
+              <tr key={project.id}>
+                <td>{project.id}</td>
+                <td>{project.name}</td>
+                <td>{project.description}</td>
+                <td>{new Date(project.startDate).toLocaleDateString()}</td>
+                <td>{new Date(project.plannedEndDate).toLocaleDateString()}</td>
+                <td>{project.statusId}</td>
+                <td>{project.accountId}</td>
+                <td>
+                  <button 
+                    className="btn btn-sm btn-outline-primary me-2" 
+                    onClick={() => editProject(project)}
+                  >
+                    Edit
+                  </button>
+                  <button 
+                    className="btn btn-sm btn-outline-danger" 
+                    onClick={() => deleteProject(project.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   )
 }

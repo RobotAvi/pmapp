@@ -95,42 +95,64 @@ export default function AccountsComponent() {
   }
 
   return (
-    <div>
-      <h1>Account Management</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Account Name"
-          required
-        />
-        <button type="submit">{editingId ? 'Update' : 'Create'} Account</button>
-        {editingId && <button type="button" onClick={resetForm}>Cancel</button>}
-      </form>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Created At</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {accounts.map((account) => (
-            <tr key={account.id}>
-              <td>{account.id}</td>
-              <td>{account.name}</td>
-              <td>{new Date(account.createdAt).toLocaleString()}</td>
-              <td>
-                <button onClick={() => editAccount(account)}>Edit</button>
-                <button onClick={() => deleteAccount(account.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+<div className="container">
+  <h1 className="my-4">Account Management</h1>
+  <form onSubmit={handleSubmit} className="mb-4">
+    <div className="input-group">
+      <input
+        type="text"
+        className="form-control"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Account Name"
+        required
+      />
+      <button className="btn btn-primary" type="submit">
+        {editingId ? 'Update' : 'Create'} Account
+      </button>
+      {editingId && (
+        <button className="btn btn-secondary" type="button" onClick={resetForm}>
+          Cancel
+        </button>
+      )}
     </div>
+  </form>
+  <div className="table-responsive">
+    <table className="table table-striped table-hover">
+      <thead className="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Created At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {accounts.map((account) => (
+          <tr key={account.id}>
+            <td>{account.id}</td>
+            <td>{account.name}</td>
+            <td>{new Date(account.createdAt).toLocaleString()}</td>
+            <td>
+              <button 
+                className="btn btn-sm btn-outline-primary me-2" 
+                onClick={() => editAccount(account)}
+              >
+                Edit
+              </button>
+              <button 
+                className="btn btn-sm btn-outline-danger" 
+                onClick={() => deleteAccount(account.id)}
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
   )
 }

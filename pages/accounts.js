@@ -4,9 +4,9 @@ import Sidebar from '../components/Sidebar'
 
 export default function Accounts() {
   return (
-    <div className="layout">
+    <div className="layout d-flex">
       <Sidebar />
-      <main className="main-content">
+      <main className="main-content flex-grow-1">
         <AccountsComponent />
       </main>
     </div>

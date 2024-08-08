@@ -1,15 +1,26 @@
-import Link from 'next/link'
+import Link from 'next/link';
 
 export default function Sidebar() {
   return (
-    <nav className="sidebar">
-      <ul>
-        <li><Link href="/">Dashboard</Link></li>
-        <li><Link href="/projects">Projects</Link></li>
-        <li><Link href="/accounts">Accounts</Link></li>
+    <nav className="sidebar bg-light p-3 vh-100">
+      <ul className="nav flex-column">
+        <li className="nav-item">
+          <Link href="/" className="nav-link">
+            Dashboard
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link href="/projects" className="nav-link">
+            Projects
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link href="/accounts" className="nav-link">
+            Accounts
+          </Link>
+        </li>
         {/* Добавьте другие пункты меню по необходимости */}
       </ul>
     </nav>
-  )
+  );
 }
-
