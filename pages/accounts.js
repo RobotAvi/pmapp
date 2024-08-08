@@ -1,15 +1,14 @@
+// pages/accounts.js
+import AccountsComponent from '../components/AccountsComponent'
 import Sidebar from '../components/Sidebar'
-import Dashboard from '../components/Dashboard';  
 
-
-export default function Home() {
+export default function Accounts() {
   return (
     <div className="layout">
       <Sidebar />
       <main className="main-content">
-        <Dashboard />
+        <AccountsComponent />
       </main>
     </div>
   )
 }
-

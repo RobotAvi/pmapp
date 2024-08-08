@@ -15,7 +15,7 @@ export default function ProjectsComponent() {
   }, [])
 
   const fetchProjects = async () => {
-    const res = await fetch('/api/projects')
+    const res = await fetch('/api/projectsApi')
     const data = await res.json()
     setProjects(data)
   }
@@ -35,7 +35,7 @@ export default function ProjectsComponent() {
   }
 
   const createProject = async (project) => {
-    const res = await fetch('/api/projects', {
+    const res = await fetch('/api/projectsApi', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(project),
@@ -46,7 +46,7 @@ export default function ProjectsComponent() {
   }
 
 const updateProject = async (id, projectData) => {
-  const response = await fetch(`/api/projects?id=${id}`, {
+  const response = await fetch(`/api/projectsApi?id=${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const updateProject = async (id, projectData) => {
 
 const deleteProject = async (id) => {
   try {
-    const res = await fetch(`/api/projects?id=${id}`, {
+    const res = await fetch(`/api/projectsApi?id=${id}`, {
       method: 'DELETE',
     });
     

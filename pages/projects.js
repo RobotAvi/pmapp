@@ -1,15 +1,14 @@
+// pages/projects.js
+import ProjectsComponent from '../components/ProjectsComponent'
 import Sidebar from '../components/Sidebar'
-import Dashboard from '../components/Dashboard';  
 
-
-export default function Home() {
+export default function Projects() {
   return (
     <div className="layout">
       <Sidebar />
       <main className="main-content">
-        <Dashboard />
+        <ProjectsComponent />
       </main>
     </div>
   )
 }
-
