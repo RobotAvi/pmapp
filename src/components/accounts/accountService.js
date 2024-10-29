@@ -1,4 +1,11 @@
-// accountService.js
+
+/**
+ * The AccountService class provides a set of methods for managing accounts, 
+ * including creating, updating, and deleting accounts. It acts as an interface 
+ * to the /api/accountsApi endpoint, handling requests and responses for 
+ * account-related operations.
+ */
+
 class AccountService {
   /**
    * Creates a new account

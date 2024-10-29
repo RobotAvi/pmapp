@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 
 /**
- * Компонент для управления аккаунтами.
+ * Component for managing accounts.
  *
- * Компонент отображает форму для создания/редактирования аккаунта, а также
- * таблицу со списком всех аккаунтов. Каждая строка таблицы содержит
- * информацию об аккаунте: ID, имя, дата создания, а также кнопки для
- * редактирования и удаления аккаунта.
+ * The component displays a form for creating/editing an account, as well as
+ * a table with a list of all accounts. Each table row contains information about
+ * the account: ID, name, creation date, as well as buttons for editing and deleting
+ * the account.
  *
  * @returns {JSX.Element}
  */
@@ -29,15 +29,16 @@ export default function AccountsComponent() {
     }
   }
 
-  /**
-   * Обработчик события submit формы.
-   *
-   * Создает или обновляет аккаунт, в зависимости от значения editingId.
-   * После успешной операции сбрасывает форму и обновляет список аккаунтов.
-   *
-   * @param {Event} e - объект события
-   * @returns {Promise<void>}
-   */
+/**
+ * Handles the form submission event.
+ *
+ * Creates or updates a project, depending on the value of `editingId`.
+ * After a successful operation, it resets the form and updates the list of projects.
+ *
+ * @param {Event} e - the event object
+ * @returns {Promise<void>}
+ */
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     const account = { name }
@@ -52,12 +53,12 @@ export default function AccountsComponent() {
     fetchAccounts()
   }
 
-  /**
-   * Создает аккаунт.
-   *
-   * @param {Object} account - объект с информацией об аккаунте
-   * @returns {Promise<void>}
-   */
+/**
+ * Creates an account.
+ *
+ * @param {Object} account - object with account information
+ * @returns {Promise<void>}
+ */
 
   const createAccount = async (account) => {
     try {
@@ -75,10 +76,10 @@ export default function AccountsComponent() {
   }
 
   /**
-   * Обновляет аккаунт.
+   * Updates an account.
    *
-   * @param {number} id - ID аккаунта
-   * @param {Object} accountData - объект с информацией об аккаунте
+   * @param {number} id - account ID
+   * @param {Object} accountData - object with account information
    * @returns {Promise<Object | null>}
    */
   const updateAccount = async (id, accountData) => {
@@ -102,11 +103,11 @@ export default function AccountsComponent() {
   }
 
   /**
-   * Удаляет аккаунт.
+   * Deletes an account.
    *
-   * @param {number} id - ID аккаунта
+   * @param {number} id - account ID
    *
-   * @throws {Error} если сервер ответил ошибкой
+   * @throws {Error} if server responded with an error
    */
   const deleteAccount = async (id) => {
     try {
@@ -115,7 +116,7 @@ export default function AccountsComponent() {
       });
       
       if (res.ok) {
-        fetchAccounts(); // Обновляем список аккаунтов после успешного удаления
+        fetchAccounts(); // Update the list of accounts after successful deletion
       } else {
         throw new Error('Server responded with an error');
       }
