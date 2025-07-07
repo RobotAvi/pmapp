@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 
 export default function ProjectsComponent() {
   const [projects, setProjects] = useState([])
+  const [accounts, setAccounts] = useState([])
+  const [statuses, setStatuses] = useState([])
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [startDate, setStartDate] = useState('')
@@ -12,12 +14,41 @@ export default function ProjectsComponent() {
 
   useEffect(() => {
     fetchProjects()
+    fetchAccounts()
+    fetchStatuses()
   }, [])
 
   const fetchProjects = async () => {
-    const res = await fetch('/api/projectsApi')
-    const data = await res.json()
-    setProjects(data)
+    try {
+      const res = await fetch('/api/projectsApi')
+      const data = await res.json()
+      setProjects(Array.isArray(data) ? data : [])
+    } catch (error) {
+      console.error('Failed to fetch projects:', error)
+      setProjects([])
+    }
+  }
+
+  const fetchAccounts = async () => {
+    try {
+      const res = await fetch('/api/accountsApi')
+      const data = await res.json()
+      setAccounts(Array.isArray(data) ? data : [])
+    } catch (error) {
+      console.error('Failed to fetch accounts:', error)
+      setAccounts([])
+    }
+  }
+
+  const fetchStatuses = async () => {
+    try {
+      const res = await fetch('/api/statusesApi')
+      const data = await res.json()
+      setStatuses(Array.isArray(data) ? data : [])
+    } catch (error) {
+      console.error('Failed to fetch statuses:', error)
+      setStatuses([])
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -142,24 +173,34 @@ const deleteProject = async (id) => {
             />
           </div>
           <div className="col-md-3">
-            <input
-              type="number"
+            <select
               className="form-control"
               value={statusId}
               onChange={(e) => setStatusId(e.target.value)}
-              placeholder="Status ID"
               required
-            />
+            >
+              <option value="">Select Status</option>
+              {statuses.map((status) => (
+                <option key={status.id} value={status.id}>
+                  {status.status}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="col-md-3">
-            <input
-              type="number"
+            <select
               className="form-control"
               value={accountId}
               onChange={(e) => setAccountId(e.target.value)}
-              placeholder="Account ID"
               required
-            />
+            >
+              <option value="">Select Account</option>
+              {accounts.map((account) => (
+                <option key={account.id} value={account.id}>
+                  {account.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="col-12">
             <button type="submit" className="btn btn-primary me-2">
@@ -182,8 +223,8 @@ const deleteProject = async (id) => {
               <th>Description</th>
               <th>Start Date</th>
               <th>Planned End Date</th>
-              <th>Status ID</th>
-              <th>Account ID</th>
+              <th>Status</th>
+              <th>Account</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -195,8 +236,8 @@ const deleteProject = async (id) => {
                 <td>{project.description}</td>
                 <td>{new Date(project.startDate).toLocaleDateString()}</td>
                 <td>{new Date(project.plannedEndDate).toLocaleDateString()}</td>
-                <td>{project.statusId}</td>
-                <td>{project.accountId}</td>
+                <td>{project.status ? project.status.status : 'Unknown'}</td>
+                <td>{project.account ? project.account.name : 'Unknown'}</td>
                 <td>
                   <button 
                     className="btn btn-sm btn-outline-primary me-2" 

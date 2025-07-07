@@ -23,9 +23,11 @@ export default function AccountsComponent() {
     try {
       const res = await fetch('/api/accountsApi')
       const data = await res.json()
-      setAccounts(data)
+      // Ensure accounts is always an array
+      setAccounts(Array.isArray(data) ? data : [])
     } catch (error) {
       console.error('Failed to fetch accounts:', error)
+      setAccounts([]) // Set empty array on error
     }
   }
 
