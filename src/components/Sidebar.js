@@ -19,6 +19,16 @@ export default function Sidebar() {
             Accounts
           </Link>
         </li>
+        <li className="nav-item">
+          <Link href="/employees" className="nav-link">
+            👥 Employees
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link href="/skills" className="nav-link">
+            🎯 Skills
+          </Link>
+        </li>
         {/* Добавьте другие пункты меню по необходимости */}
       </ul>
     </nav>

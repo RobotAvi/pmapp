@@ -1,6 +1,6 @@
 // pages/projects.js
-import ProjectsComponent from '../components/ProjectsComponent'
-import Sidebar from '../components/Sidebar'
+import ProjectsComponent from '../src/components/projects/ProjectsComponent'
+import Sidebar from '../src/components/Sidebar'
 
 export default function Projects() {
   return (
