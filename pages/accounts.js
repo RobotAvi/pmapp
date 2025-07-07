@@ -1,6 +1,6 @@
 // pages/accounts.js
-import AccountsComponent from '../components/AccountsComponent'
-import Sidebar from '../components/Sidebar'
+import AccountsComponent from '../src/components/accounts/AccountsComponent'
+import Sidebar from '../src/components/Sidebar'
 
 export default function Accounts() {
   return (
