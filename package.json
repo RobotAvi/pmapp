@@ -18,7 +18,7 @@
     "@popperjs/core": "^2.11.8",
     "@prisma/client": "^5.18.0",
     "bootstrap": "^5.3.3",
-    "next": "14.2.5",
+    "next": "^15.3.5",
     "prisma": "^5.18.0",
     "react": "^18",
     "react-dom": "^18"
