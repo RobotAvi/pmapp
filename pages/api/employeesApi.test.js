@@ -67,7 +67,23 @@ describe('/api/employeesApi', () => {
       await handler(req, res)
 
       expect(res._getStatusCode()).toBe(200)
-      expect(JSON.parse(res._getData())).toEqual(mockEmployees)
+      const responseData = JSON.parse(res._getData())
+      expect(responseData).toEqual([
+        {
+          id: 1,
+          firstName: 'John',
+          lastName: 'Doe',
+          position: 'Developer',
+          employmentType: 'Full-time',
+          hireDate: mockEmployees[0].hireDate.toISOString(),
+          contactInfo: 'john@example.com',
+          employeeSkills: [],
+          employeeLevels: [],
+          projectAssignments: [],
+          performanceReviews: [],
+          salaries: []
+        }
+      ])
       expect(prisma.employee.findMany).toHaveBeenCalledWith({
         include: {
           employeeSkills: {
@@ -139,7 +155,20 @@ describe('/api/employeesApi', () => {
       await handler(req, res)
 
       expect(res._getStatusCode()).toBe(200)
-      expect(JSON.parse(res._getData())).toEqual(createdEmployee)
+      const responseData = JSON.parse(res._getData())
+      expect(responseData).toEqual({
+        id: 1,
+        firstName: 'Jane',
+        lastName: 'Smith',
+        position: 'Designer',
+        employmentType: 'Contract',
+        hireDate: createdEmployee.hireDate.toISOString(),
+        contactInfo: 'jane@example.com',
+        employeeSkills: [],
+        employeeLevels: [],
+        projectAssignments: [],
+        salaries: []
+      })
       expect(prisma.employee.create).toHaveBeenCalledWith({
         data: {
           ...newEmployee,
@@ -191,7 +220,20 @@ describe('/api/employeesApi', () => {
       await handler(req, res)
 
       expect(res._getStatusCode()).toBe(200)
-      expect(JSON.parse(res._getData())).toEqual(updatedEmployee)
+      const responseData = JSON.parse(res._getData())
+      expect(responseData).toEqual({
+        id: 1,
+        firstName: 'John',
+        lastName: 'Updated',
+        position: 'Senior Developer',
+        employmentType: 'Full-time',
+        hireDate: updatedEmployee.hireDate.toISOString(),
+        contactInfo: 'john.updated@example.com',
+        employeeSkills: [],
+        employeeLevels: [],
+        projectAssignments: [],
+        salaries: []
+      })
       expect(prisma.employee.update).toHaveBeenCalledWith({
         where: { id: 1 },
         data: {
