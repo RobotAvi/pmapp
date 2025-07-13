@@ -85,7 +85,15 @@ describe('/api/statusesApi', () => {
       await handler(req, res)
 
       expect(res._getStatusCode()).toBe(200)
-      expect(JSON.parse(res._getData())).toEqual(createdStatus)
+      const responseData = JSON.parse(res._getData())
+      expect(responseData).toEqual({
+        id: 4,
+        status: 'Planning',
+        description: 'Project is in planning phase',
+        isActive: true,
+        createdAt: createdStatus.createdAt.toISOString(),
+        updatedAt: createdStatus.updatedAt.toISOString()
+      })
       expect(prisma.projectStatus.create).toHaveBeenCalledWith({
         data: {
           status: 'Planning',
